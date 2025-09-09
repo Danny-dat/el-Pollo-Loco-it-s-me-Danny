@@ -1,22 +1,66 @@
+/**
+ * Represents a movable object in the game, extending the basic DrawableObject.
+ * This class adds properties and methods related to movement, physics (like gravity),
+ * and interactions (like collisions and taking damage).
+ */
 class MovableObject extends DrawableObject {
+    /**
+     * The horizontal movement speed of the object.
+     * @type {number}
+     */
     speed = 0.15;
+    /**
+     * A flag indicating if the object is facing the opposite direction (left).
+     * @type {boolean}
+     */
     otherDiretion = false;
+    /**
+     * The vertical speed of the object.
+     * @type {number}
+     */
     speedY = 0;
+    /**
+     * The acceleration due to gravity.
+     * @type {number}
+     */
     acceleration = 2.5;
+    /**
+     * The energy or health of the object.
+     * @type {number}
+     */
     energy = 100;
+    /**
+     * Timestamp of the last time the object was hit.
+     * @type {number}
+     */
     lastHit = 0;
+    /**
+     * The interval ID for the gravity simulation.
+     * @type {number}
+     */
     applygravityInterval;
+    /**
+     * The collision offset for the object. This defines the bounding box
+     * for collision detection, making it more accurate.
+     * @type {{top: number, left: number, right: number, bottom: number}}
+     */
     offset = {
         top: 0,
         left: 0,
         right: 0,
         bottom: 0
     }
+    /**
+     * A flag to control sound.
+     * @type {boolean}
+     */
     sound = true;
 
+
     /**
-    * Applies gravity to the object, causing it to fall downwards until it collides with the ground or reaches the maximum falling speed.
-    */
+     * Applies a constant downward force to simulate gravity, causing the object to fall.
+     * The simulation runs at a fixed interval.
+     */
     applygravity() {
         this.applygravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
@@ -25,10 +69,12 @@ class MovableObject extends DrawableObject {
             }
         }, 1000 / 25);
     }
+
+
     /**
-     * Checks if the object is above the ground level.
-     * 
-     * @returns {boolean} True if the object is above the ground, false otherwise.
+     * Checks if the object is currently above the ground level.
+     * Throwable objects are always considered to be "above ground" to allow them to fall.
+     * @returns {boolean} - True if the object is above ground, otherwise false.
      */
     isAboveGround() {
         if (this instanceof ThrowableObject) {
@@ -38,12 +84,13 @@ class MovableObject extends DrawableObject {
         }
     }
 
+
     /**
-        * Checks if the current object is colliding with another object.
-        * 
-        * @param {Object} mo - The other object to check collision with.
-        * @returns {boolean} True if there is a collision, false otherwise.
-        */
+     * Detects collision with another movable object using their bounding boxes,
+     * adjusted by their offsets.
+     * @param {MovableObject} mo - The other movable object to check for collision.
+     * @returns {boolean} - True if the objects are colliding, otherwise false.
+     */
     isColliding(mo) {
         return this.x + this.height - this.offset.right > mo.x + mo.offset.left &&
             this.y + this.width - this.offset.bottom > mo.y + mo.offset.top &&
@@ -51,9 +98,11 @@ class MovableObject extends DrawableObject {
             this.y + this.offset.top < mo.y + mo.width - mo.offset.bottom;
     }
 
+
     /**
-            * Decreases the energy level of the current object and records the last hit time.
-            */
+     * Reduces the object's energy when it gets hit and records the time of the hit.
+     * Energy will not drop below zero.
+     */
     hit() {
         this.energy -= 1;
         if (this.energy < 0) {
@@ -63,31 +112,32 @@ class MovableObject extends DrawableObject {
         }
     }
 
+
     /**
-                * Checks if the character is currently hurt based on the last hit time.
-                * 
-                * @returns {boolean} True if the character is hurt, false otherwise.
-                */
+     * Checks if the object is in a "hurt" state, which lasts for a short period
+     * after being hit.
+     * @returns {boolean} - True if the object was hit less than 1 second ago.
+     */
     isHurt() {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
         return timepassed < 1;
     }
 
+
     /**
-     * Checks if the character is dead based on its energy level.
-     * 
-     * @returns {boolean} True if the character is dead, false otherwise.
+     * Checks if the object is "dead" (i.e., its energy has reached zero).
+     * @returns {boolean} - True if the object's energy is 0.
      */
     isDead() {
         return this.energy == 0;
     }
 
+
     /**
-    * Plays the next frame of animation from the provided array of images.
-    * 
-    * @param {string[]} images - An array containing paths to the images for the animation.
-    */
+     * Plays an animation by cycling through an array of images.
+     * @param {string[]} images - An array of image paths for the animation frames.
+     */
     playAnimation(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
@@ -95,16 +145,18 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
+
     /**
-    * Moves the character to the right by adding its speed to the x-coordinate.
-    */
+     * Moves the object to the right by its speed.
+     */
     moveRight() {
         this.x += this.speed;
     }
 
+
     /**
-    * Moves the character to the left by subtracting its speed from the x-coordinate.
-    */
+     * Moves the object to the left by its speed.
+     */
     moveLeft() {
         this.x -= this.speed;
     }

@@ -1,8 +1,28 @@
+/**
+ * Represents the final boss enemy in the game. It extends the MovableObject class
+ * to inherit properties for movement, animation, and collision. This class
+ * controls the behavior, animations, and interactions of the end boss.
+ */
 class Endboss extends MovableObject {
+    /**
+     * The height of the end boss.
+     * @type {number}
+     */
     height = 400;
+    /**
+     * The width of the end boss.
+     * @type {number}
+     */
     width = 400;
+    /**
+     * The vertical position of the end boss.
+     * @type {number}
+     */
     y = 50;
-
+    /**
+     * An array of image paths for the end boss's alert animation.
+     * @type {string[]}
+     */
     IMAGES_ALERT = ['img/4_enemie_boss_chicken/2_alert/G5.png',
         'img/4_enemie_boss_chicken/2_alert/G6.png',
         'img/4_enemie_boss_chicken/2_alert/G7.png',
@@ -12,19 +32,28 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/2_alert/G11.png',
         'img/4_enemie_boss_chicken/2_alert/G12.png'
     ];
-
+    /**
+     * An array of image paths for the end boss's death animation.
+     * @type {string[]}
+     */
     IMAGES_DEAD = [
         'img/4_enemie_boss_chicken/5_dead/G24.png',
         'img/4_enemie_boss_chicken/5_dead/G25.png',
         'img/4_enemie_boss_chicken/5_dead/G26.png'
     ];
-
+    /**
+     * An array of image paths for the end boss's hurt animation.
+     * @type {string[]}
+     */
     IMAGES_HURT = [
         'img/4_enemie_boss_chicken/4_hurt/G21.png',
         'img/4_enemie_boss_chicken/4_hurt/G22.png',
         'img/4_enemie_boss_chicken/4_hurt/G23.png'
     ];
-
+    /**
+     * An array of image paths for the end boss's attack animation.
+     * @type {string[]}
+     */
     IMAGES_ATTACK = [
         'img/4_enemie_boss_chicken/3_attack/G13.png',
         'img/4_enemie_boss_chicken/3_attack/G14.png',
@@ -35,17 +64,32 @@ class Endboss extends MovableObject {
         'img/4_enemie_boss_chicken/3_attack/G19.png',
         'img/4_enemie_boss_chicken/3_attack/G20.png'
     ];
-
+    /**
+     * The collision offset for the end boss object.
+     * @type {{top: number, left: number, right: number, bottom: number}}
+     */
     offset = {
         top: 20,
         left: 80,
         right: 80,
         bottom: 0
     }
-
+    /**
+     * A flag to check if the character has made first contact with the boss.
+     * @type {boolean}
+     */
     hadFirstContact = false;
+    /**
+     * Audio object for the chicken boss sound.
+     * @type {Audio}
+     */
     chickenBoss_sound = new Audio('audio/chickenBoss.mp3');
 
+
+    /**
+     * The constructor initializes a new end boss object. It loads all necessary images,
+     * sets the initial position and speed, and starts the animation loop.
+     */
     constructor() {
         super().loadImage('img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_ALERT);
@@ -57,10 +101,11 @@ class Endboss extends MovableObject {
         this.animate();
     }
 
+
     /**
-    * Initiates the animation loop.
-    * Checks the sound status and updates boss animation every 250 milliseconds.
-    */
+     * Initiates the animation and logic loop for the end boss.
+     * This loop periodically checks game sounds and updates the boss's animation.
+     */
     animate() {
         setInterval(() => {
             this.checkMexicoSound();
@@ -69,10 +114,10 @@ class Endboss extends MovableObject {
         }, 250);
     }
 
+
     /**
-     * Checks if the boss is hit by a thrown bottle.
-     * 
-     * @returns {boolean} True if the boss is hit by a thrown bottle, otherwise false.
+     * Checks if the boss has been hit by a throwable object (a bottle).
+     * @returns {boolean} - True if the boss is colliding with a bottle, otherwise false.
      */
     bossGetsHit() {
         let isHurt = false;
@@ -84,18 +129,19 @@ class Endboss extends MovableObject {
         return isHurt;
     }
 
+
     /**
-     * Checks if the character's energy is zero or less.
-     * 
-     * @returns {boolean} True if the character's energy is zero or less, otherwise false.
+     * Checks if the character's energy is at or below zero.
+     * @returns {boolean} - True if the character is out of energy, otherwise false.
      */
     energIsAtZero() {
         return world.character.energy <= 0;
     }
 
+
     /**
-    * Checks the sound status and controls the playing or pausing of the Mexico sound accordingly.
-    */
+     * Manages the background music. Plays or pauses the "Mexico" sound based on the global sound setting.
+     */
     checkMexicoSound() {
         if (world.sound === false) {
             world.mexico_sound.pause();
@@ -104,18 +150,19 @@ class Endboss extends MovableObject {
         }
     }
 
+
     /**
-     * Checks the final boss sound based on boss status.
-     * Stops final boss sound if the boss is dead or character is not facing the boss.
+     * Manages the final boss music based on the game state.
      */
     checkFinalBossSound() {
         this.bossIsDead();
         this.characterSeesBoss();
     }
 
+
     /**
-     * Manages the animation of the boss character based on its health and interactions.
-     * Plays appropriate animation frames for boss attack, being hit, or being dead.
+     * Controls the boss's animation state based on its health and whether it has been hit.
+     * It switches between attack, hurt, and dead animations.
      */
     bossAnimation() {
         if (world.bossLife >= 80) {
@@ -131,17 +178,19 @@ class Endboss extends MovableObject {
         }
     }
 
+
     /**
-    * Plays the chicken boss sound if the game sound is enabled.
-    */
+     * Plays the sound effect for the chicken boss, if sound is enabled in the game.
+     */
     chickenBossSound() {
         if (world.sound === true) {
             this.chickenBoss_sound.play();
         }
     }
 
+
     /**
-     * Checks if the boss character is dead and stops related sounds if true.
+     * Checks if the boss is dead and stops the game's music if so.
      */
     bossIsDead() {
         if (this.energIsAtZero()) {
@@ -150,9 +199,11 @@ class Endboss extends MovableObject {
         }
     }
 
+
     /**
-    * Checks if the character sees the boss and controls related game sounds and boss behavior.
-    */
+     * Triggers the boss fight sequence when the character reaches a certain point.
+     * It manages the transition of music and initiates the boss's attack behavior.
+     */
     characterSeesBoss() {
         if (world.character.x >= 1160 || this.hadFirstContact) {
             this.hadFirstContact = true;
@@ -169,10 +220,10 @@ class Endboss extends MovableObject {
         }
     }
 
+
     /**
-     * Controls the boss's movement until the end of its path or its defeat.
-     * Moves the boss towards the character's position.
-     * Stops boss sound if the boss is defeated.
+     * Controls the boss's movement logic. The boss moves towards the character
+     * as long as it is alive.
      */
     bossRanUntiltheEnd() {
         if (world.bossLife > 0) {
@@ -181,8 +232,7 @@ class Endboss extends MovableObject {
             } else {
                 this.moveLeft();
             }
-        }
-        else {
+        } else {
             world.sound = false;
         }
     }

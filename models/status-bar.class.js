@@ -1,13 +1,4 @@
-/**
- * Represents the player's health status bar. It extends DrawableObject to inherit
- * properties and methods for rendering. This class visually displays the player's
- * current health percentage.
- */
 class StatusBar extends DrawableObject {
-    /**
-     * An array of image paths for the health status bar, representing different fill levels.
-     * @type {string[]}
-     */
     IMAGES = [
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/0.png',
         'img/7_statusbars/1_statusbar/2_statusbar_health/blue/20.png',
@@ -18,17 +9,8 @@ class StatusBar extends DrawableObject {
 
     ];
 
-    /**
-     * The current percentage of the health bar.
-     * @type {number}
-     */
     percentage = 100;
 
-
-    /**
-     * The constructor initializes a new status bar object. It loads the necessary images,
-     * sets its position and dimensions on the screen, and initializes the percentage to 100.
-     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);
@@ -38,11 +20,9 @@ class StatusBar extends DrawableObject {
         this.height = 200;
         this.setPercentage(100);
     }
-
-
     /**
-     * Sets the percentage of the status bar and updates the displayed image accordingly.
-     * @param {number} percentage - The new percentage value to set.
+     * Sets the percentage value and updates the image based on the resolved index.
+     * @param {number} percentage - The percentage value.
      */
     setPercentage(percentage) {
         this.percentage = percentage;
@@ -50,12 +30,10 @@ class StatusBar extends DrawableObject {
         this.img = this.imageCache[path];
     }
 
-
-    /**
-     * Determines the correct image index from the IMAGES array based on the current percentage.
-     * This allows the status bar to visually reflect the player's health.
-     * @returns {number} The index of the image corresponding to the current percentage.
-     */
+    /** 
+    * Resolves the index of the image based on the percentage value.
+    * @returns {number} The index of the image.
+    */
     resolveImageIndex() {
         if (this.percentage == 100) {
             return 5;
@@ -72,3 +50,7 @@ class StatusBar extends DrawableObject {
         }
     }
 }
+
+
+
+

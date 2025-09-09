@@ -33,7 +33,7 @@ class Coin extends MovableObject {
         this.x = Math.random() * -1400 + Math.random() * 1800;
         this.loadImages(this.IMAGES_COIN);
         this.y = 100 + Math.random() * 200; // Spawns the coin at a random height between 100 and 300
-        this.height = 100;
+        this.height = 200;
         this.width = 100;
         this.animate();
     }

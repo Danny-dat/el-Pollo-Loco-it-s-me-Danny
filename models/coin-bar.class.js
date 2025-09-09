@@ -1,13 +1,4 @@
-/**
- * Represents the coin status bar in the game. It extends DrawableObject to inherit
- * properties and methods for rendering. This class manages the visual representation
- * of the player's collected coins.
- */
 class CoinBar extends DrawableObject {
-    /**
-     * An array of image paths for the coin status bar, representing different fill levels.
-     * @type {string[]}
-     */
     IMAGES = [
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png',
         'img/7_statusbars/1_statusbar/1_statusbar_coin/green/20.png',
@@ -18,22 +9,9 @@ class CoinBar extends DrawableObject {
 
     ];
 
-    /**
-     * The current percentage of the coin bar.
-     * @type {number}
-     */
     percentage = 0;
-    /**
-     * The index of the current coin image to be displayed.
-     * @type {number}
-     */
     coinImageIndex = 0;
 
-
-    /**
-     * The constructor initializes a new coin bar object. It loads the necessary images,
-     * sets its position and dimensions on the screen, and initializes the percentage to 0.
-     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);
@@ -44,22 +22,17 @@ class CoinBar extends DrawableObject {
         this.setPercentage(0);
     }
 
-
-    /**
-    * Sets the percentage of the coin bar and updates the displayed image accordingly.
-    * @param {number} percentage - The new percentage value to set.
-    */
+    /*** Sets the percentage value and updates the image based on the provided percentage.* * @param {number} percentage - The percentage value to set.*/
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
 
-
     /**
-     * Determines the correct image index from the IMAGES array based on the current percentage.
-     * This allows the status bar to visually reflect the amount of coins collected.
-     * @returns {number} The index of the image corresponding to the current percentage.
+     * Resolves the image index based on the current percentage value.
+     * 
+     * @returns {number} The index of the image to use based on the percentage.
      */
     resolveImageIndex() {
         if (this.percentage <= 0) {

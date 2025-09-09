@@ -1,15 +1,4 @@
-/**
- * A global variable to hold the level object once it's initialized.
- * @type {Level}
- */
-let level1;
-
-
-/**
- * Initializes the first level of the game. This function creates a new Level object
- * and populates it with all the necessary game elements, including enemies (chickens),
- * background objects, clouds, collectibles (coins and bottles), and the end boss.
- */
+let level1
 function initLevel() {
 
     level1 = new Level(
@@ -74,7 +63,7 @@ function initLevel() {
         ],
         [
             new Endboss()
-        ],
+        ], 
         [
             new SmallChicken(),
             new SmallChicken(),

@@ -1,29 +1,55 @@
-/**
- * Represents a background object in the game. It extends MovableObject to inherit
- * properties and methods for movement and rendering.
- */
-class BackgroundObject extends MovableObject {
-    /**
-     * The width of the background object.
-     * @type {number}
-     */
-    width = 720;
-    /**
-     * The height of the background object.
-     * @type {number}
-     */
-    height = 480;
+class BossBar extends MovableObject {
+    IMAGES = [
+        'img/7_statusbars/2_statusbar_endboss/blue/blue0.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue20.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue40.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue60.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue80.png',
+        'img/7_statusbars/2_statusbar_endboss/blue/blue100.png'
+    ];
 
+    percentage = 100;
 
-    /**
-     * The constructor initializes a new background object. It sets the image,
-     * the horizontal position (x), and the vertical position (y).
-     * @param {string} imagePath - The path to the image for the background object.
-     * @param {number} x - The initial horizontal position of the background object.
-     */
-    constructor(imagePath, x) {
-        super().loadImage(imagePath);
-        this.x = x;
-        this.y = 480 - this.height; // 480 - 480 = 0
+    constructor() {
+        super();
+        this.loadImages(this.IMAGES);
+        this.x = 500;
+        this.y = 30;
+        this.width = 60;
+        this.height = 200;
+        this.setPercentage(100);
     }
+
+    /**
+    * Sets the percentage value and updates the image based on the provided percentage.
+    * 
+    * @param {number} percentage - The percentage value to set.
+    */
+    setPercentage(percentage) {
+        this.percentage = percentage;
+        let path = this.IMAGES[this.resolveImageIndex()];
+        this.img = this.imageCache[path];
+        this.otherDiretion = true;
+    }
+
+    /**
+     * Resolves the image index based on the current percentage value.
+     * 
+     * @returns {number} The index of the image to use based on the percentage.
+     */
+    resolveImageIndex() {
+        if (this.percentage >= 100) {
+            return 5;
+        } else if (this.percentage >= 80) {
+            return 4;
+        } else if (this.percentage >= 60) {
+            return 3;
+        } else if (this.percentage >= 40) {
+            return 2;
+        } else if (this.percentage >= 20) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }   
 }

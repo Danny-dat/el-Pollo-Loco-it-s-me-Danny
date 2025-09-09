@@ -1,12 +1,4 @@
-/**
- * Represents the bottle status bar in the game. It extends DrawableObject to inherit
- * properties and methods for rendering.
- */
 class BottleBar extends DrawableObject {
-    /**
-     * An array of image paths for the bottle status bar, representing different fill levels.
-     * @type {string[]}
-     */
     IMAGES = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png',
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/20.png',
@@ -16,17 +8,8 @@ class BottleBar extends DrawableObject {
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png'
     ];
 
-    /**
-     * The current percentage of the bottle bar.
-     * @type {number}
-     */
     percentage = 0;
 
-
-    /**
-     * The constructor initializes a new bottle bar object. It loads the images,
-     * sets the position and dimensions, and initializes the percentage to 0.
-     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);
@@ -37,10 +20,10 @@ class BottleBar extends DrawableObject {
         this.setPercentage(0);
     }
 
-
     /**
-    * Sets the percentage value and updates the image of the status bar accordingly.
-    * * @param {number} percentage - The new percentage value to set for the bottle bar.
+    * Sets the percentage value and updates the image based on the provided percentage.
+    * 
+    * @param {number} percentage - The percentage value to set.
     */
     setPercentage(percentage) {
         this.percentage = percentage;
@@ -48,25 +31,24 @@ class BottleBar extends DrawableObject {
         this.img = this.imageCache[path];
     }
 
-
     /**
-     * Resolves the correct image index from the IMAGES array based on the current percentage.
-     * This allows the status bar to display the correct visual representation of the bottle level.
-     * * @returns {number} The index of the image corresponding to the current percentage.
+     * Resolves the image index based on the current percentage value.
+     * 
+     * @returns {number} The index of the image to use based on the percentage.
      */
     resolveImageIndex() {
-        if (this.percentage == 100) {
-            return 5;
-        } else if (this.percentage > 80) {
-            return 4;
-        } else if (this.percentage > 60) {
-            return 3;
-        } else if (this.percentage > 40) {
-            return 2;
-        } else if (this.percentage > 20) {
-            return 1;
-        } else {
+        if (this.percentage === 0) {
             return 0;
+        } else if (this.percentage <= 20) {
+            return 1;
+        } else if (this.percentage <= 40) {
+            return 2;
+        } else if (this.percentage <= 60) {
+            return 3;
+        } else if (this.percentage <= 80) {
+            return 4;
+        } else {
+            return 5;
         }
     }
 }

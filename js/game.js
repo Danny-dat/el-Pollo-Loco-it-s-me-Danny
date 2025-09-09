@@ -1,46 +1,21 @@
-/**
- * The main canvas element for the game.
- * @type {HTMLCanvasElement}
- */
 let canvas;
-/**
- * The main world object that contains all game logic.
- * @type {World}
- */
 let world;
-/**
- * An instance of the Kayboard class to handle keyboard inputs.
- * @type {Kayboard}
- */
 let keybord = new Kayboard();
-/**
- * The player character object.
- * @type {Character}
- */
 let character;
-/**
- * The end boss object.
- * @type {Endboss}
- */
 let endboss;
-/**
- * A flag to track the current volume state (on/off).
- * @type {boolean}
- */
 let isVolumeOn;
 
-
 /**
- * Initializes the game by getting the canvas element from the DOM.
+ * Initializes the canvas element.
  */
 function init() {
     canvas = document.getElementById('canvas');
+    
 }
 
-
 /**
- * Starts the game. Hides the start screen, initializes the level,
- * sets up mobile controls, and creates a new World instance.
+ * Starts the game.
+ * Hides the start button and initializes the game world and level.
  */
 function start() {
     let startPolloLoco = document.getElementById('startPolloLoco');
@@ -49,63 +24,52 @@ function start() {
     initLevel();
     mobilRun();
     lautSound();
-    world = new World(canvas, keybord);
+    world = new World(canvas, keybord);  
 }
 
-
 /**
- * Restarts the game after a "Game Over". Hides the game over screen,
- * clears all active intervals, and calls the start function again.
+ * Restarts the game after game over.
+ * Hides the game over message, resets the game world and level, and starts the game again.
  */
 function reStart() {
     let restartPolloLoco = document.getElementById('gameOver');
     restartPolloLoco.style.display = 'none';
-    WorldTwo = null;
+    WorldTwo= null;
     clearAllIntervals();
     start();
 }
-
-
-/**
- * Sets the initial volume icon to "sound on".
- */
-function lautSound() {
+function lautSound(){
     let volume = document.getElementById('volume');
     volume.src = 'img/lautsprecher.png';
     isVolumeOn = false;
 }
 
-
-/**
- * A utility function to clear all active setIntervals. This is used to
- * stop all game loops when restarting the game.
- */
 function clearAllIntervals() {
     for (let i = 1; i < 9999; i++) window.clearInterval(i);
-}
+  }
 
 
 /**
- * Starts a new game from the "Next Level" or "You Won" screen.
+ * Reloads the page to start the game anew.
  */
 function startAnew() {
     let nextLevel = document.getElementById('nextLevel');
-    nextLevel.style.display = 'none';
-    reStart();
+        nextLevel.style.display = 'none';
+        reStart();
+        
 }
 
-
 /**
- * Closes the information note overlay.
+ * Closes the info note displayed.
  */
 function closInfo() {
     let infoNote = document.getElementById('infoNote');
     infoNote.style.display = 'none';
 }
 
-
 /**
- * Toggles the visibility of the information note overlay.
+ * Toggles the display of the info note.
+ * If the note is currently displayed, hides it; otherwise, displays it.
  */
 function infoNote() {
     let infoNote = document.getElementById('infoNote');
@@ -116,9 +80,8 @@ function infoNote() {
     }
 }
 
-
 /**
- * Sets up touch event listeners for the on-screen mobile controls.
+ * Sets up event listeners for touch events on mobile devices to control the character's movement and actions.
  */
 function mobilRun() {
     document.getElementById("left").addEventListener("touchstart", () => {
@@ -158,7 +121,7 @@ function mobilRun() {
 
 
 /**
- * Event listener for keydown events to update the keyboard state.
+ * Listens for keydown events and sets corresponding keyboard input flags.
  */
 window.addEventListener("keydown", (e) => {
     if (e.keyCode == 39) {
@@ -181,9 +144,10 @@ window.addEventListener("keydown", (e) => {
     }
 });
 
-
 /**
- * Event listener for keyup events to update the keyboard state.
+ * Listens for keyup events and resets corresponding keyboard input flags.
+ * 
+ * @param {Event} e - The keyup event object.
  */
 window.addEventListener("keyup", (e) => {
     if (e.keyCode == 39) {
@@ -206,9 +170,9 @@ window.addEventListener("keyup", (e) => {
     }
 });
 
-
 /**
- * Toggles the game's sound on and off. Updates the volume icon and the global sound flag.
+ * Toggles the game volume on and off.
+ * Changes the volume icon and toggles the sound property of the game world and character.
  */
 function volume() {
     let volume = document.getElementById('volume');
@@ -222,10 +186,9 @@ function volume() {
     isVolumeOn = !isVolumeOn;
 }
 
-
 /**
- * Checks the device orientation. If in portrait mode, it shows a message to rotate the device.
- * It also handles the visibility of mobile controls based on screen width.
+ * Checks the device orientation and adjusts the game display accordingly.
+ * Displays or hides elements based on whether the device is in portrait or landscape mode.
  */
 function checkOrientation() {
     let startButton = document.getElementById('startButton');
@@ -246,11 +209,10 @@ function checkOrientation() {
     }
 }
 
-
-// Event listener for the resize event to respond to changes in screen size.
+// Event listener for the resize event to respond to changes in screen size
 window.addEventListener("resize", checkOrientation);
 
-// Event listener for the DOMContentLoaded event to check screen orientation when the page is loaded.
+// Event listener for the DOMContentLoaded event to check screen orientation when the page is loaded
 document.addEventListener("DOMContentLoaded", function () {
-    checkOrientation();
+    checkOrientation(); // Check screen orientation when the page is loaded
 });

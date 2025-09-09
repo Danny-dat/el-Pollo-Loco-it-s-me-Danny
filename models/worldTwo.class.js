@@ -1,38 +1,19 @@
-/**
- * A class that appears to handle game state events like game over and advancing levels.
- * It also contains logic for player collections (coins, bottles) and throwing objects.
- * This class seems to be a base or secondary part of the main World logic.
- */
-class WorldTwo {
-    /**
-     * A flag to ensure the game over screen is only displayed once per session.
-     * @type {boolean}
-     */
+class WorldTwo{
     gameOverDisplayed = false;
-
-
-    /**
-     * The constructor starts the main gameplay loop.
-     */
-    constructor() {
+    
+    constructor(){
         this.play();
     }
-
-
-    /**
-     * Starts a loop to periodically check for the game over condition.
-     */
-    play() {
+    play(){
         setInterval(() => {
             this.gameOver();
-
+            
         }, 1000);
     }
 
-
     /**
-     * Checks if the character's energy is at or below zero and triggers the game over sequence if it hasn't been displayed yet.
-     */
+    * Checks if the character is dead.
+    */
     isCharacterDead() {
         if (!this.gameOverDisplayed && world.character.energy <= 0) {
             this.gameOverDisplayed = true;
@@ -41,11 +22,12 @@ class WorldTwo {
         }
     }
 
-
-    /**
-     * Displays or hides the "Game Over" screen based on the character's energy level.
-     */
-    gameOver() {
+     /**
+    * Displays or hides the game over message based on the character's energy level.
+    * If the character's energy is 0 or less, displays the game over message.
+    * Otherwise, hides the game over message and resets the game over displayed flag.
+    */
+     gameOver() {
         let gameOverElement = document.getElementById('gameOver');
         if (world.character.energy <= 0) {
             gameOverElement.style.display = 'block';
@@ -55,18 +37,16 @@ class WorldTwo {
         }
     }
 
-
     /**
-     * Displays the "Next Level" screen.
-     */
+    * Displays the next level message.
+    */
     nextLevel() {
         let nextLevel = document.getElementById('nextLevel');
         nextLevel.style.display = 'flex';
     }
 
-
     /**
-     * Plays the coin collection sound effect if sound is enabled.
+     * Plays the coin sound if sound is enabled.
      */
     playCoinSound() {
         if (this.sound === true) {
@@ -74,10 +54,8 @@ class WorldTwo {
         }
     }
 
-
     /**
-     * Manages the logic for collecting coins. It checks for collisions between the character
-     * and coins and updates the coin bar accordingly.
+     * Updates the status of the coin value.
      */
     coinStatus() {
         if (this.coinValue <= 100) {
@@ -93,13 +71,12 @@ class WorldTwo {
         }
     }
 
-
     /**
-     * Manages the logic for collecting bottles. It checks for collisions and updates the bottle bar.
-     */
+    * Updates the status of the bottle value.
+    */
     bottleValueStatus() {
         if (this.bottleValue < 100) {
-            this.level.bottle.forEach((bottle, index, ) => {
+            this.level.bottle.forEach((bottle, index,) => {
                 if (this.checkCharachrterForCollidingBottle(bottle)) {
                     this.characterIsCollidingBottle();
                     if (this.bottleValue > 100) {
@@ -113,12 +90,10 @@ class WorldTwo {
         }
     }
 
-
     /**
-     * Creates a new throwable bottle object, updates the player's bottle count,
-     * and adds the new bottle to the world.
-     * @returns {ThrowableObject} The newly created bottle object.
-     */
+    * Creates a new bottle object, updates game state, and returns the created bottle.
+    * @returns {ThrowableObject} The newly created bottle object.
+    */
     bottleStatus() {
         let bottle = new ThrowableObject(this.character.x + 100, this.character.y + 100);
         this.throwableObject.push(bottle);
@@ -128,11 +103,10 @@ class WorldTwo {
         return bottle;
     }
 
-
     /**
-     * Removes a throwable object from the game after a set delay.
-     * @param {number} index - The index of the throwable object to remove.
-     */
+    * Removes a throwable object from the game after a delay.
+    * @param {number} index - The index of the throwable object to remove from the array.
+    */
     removeThrowableObject(index) {
         setTimeout(() => {
             this.throwableObject.splice(index, 1);
@@ -143,10 +117,8 @@ class WorldTwo {
         }, 1250);
     }
 
-
     /**
-     * Checks if the player can throw an object and, if so, initiates the throw.
-     * It also handles the immediate collision check against the boss.
+     * Checks if the player can throw an object, and if so, performs necessary actions.
      */
     checkThrowObject() {
         if (this.iCanThrow()) {
@@ -157,4 +129,5 @@ class WorldTwo {
             this.removeThrowableObject();
         }
     }
+
 }

@@ -156,6 +156,19 @@ class World extends WorldTwo{
         this.bottleValueStatus();
     }
 
+/**
+     * Checks for collisions between the character and coins. 
+     * If a collision is detected, the coin is collected.
+     */
+    coinStatus() {
+        this.level.coin.forEach((coin) => {
+            if (this.isCharacterCollidingCoin(coin)) {
+                this.characterIsCollidingCoin(coin);
+                this.coinBar.setPercentage(this.coinValue);
+            }
+        });
+    }
+
     characterCheckForEnergy(){
         if (this.character.energy <= 0) {
             this.isCharacterDead();
@@ -276,15 +289,26 @@ class World extends WorldTwo{
         return this.character.isColliding(coin)
     }
 
-    /**
-     * Handles the collision of the character with a coin.
-     */
-    characterIsCollidingCoin(coin) {
-        this.playCoinSound();
-        this.level.removeCoin(coin);
+// NEUE, KORRIGIERTE FUNKTION
+characterIsCollidingCoin(coin) {
+    // Erhöhe den Münzwert nur, wenn die Leiste nicht schon voll ist
+    if (this.coinValue < 100) {
         this.coinValue += 20;
-    }
+        
+        if (this.sound === true) {
+            this.coin_sound.play();
+        }
 
+        // Finde die Position (Index) der eingesammelten Münze im Array
+        const coinIndex = this.level.coin.indexOf(coin);
+        
+        // Wenn die Münze gefunden wurde...
+        if (coinIndex > -1) {
+            // ...entferne sie aus dem Array, damit sie nicht erneut gesammelt werden kann
+            this.level.coin.splice(coinIndex, 1); 
+        }
+    }
+}
     /**
      * Plays the jump sound, makes the character jump, and sets the chicken's energy to 0.
      */

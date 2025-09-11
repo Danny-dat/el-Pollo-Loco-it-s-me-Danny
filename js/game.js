@@ -1,6 +1,6 @@
 let canvas;
 let world;
-let keybord = new Kayboard();
+let keybord = new Keyboard();
 let character;
 let endboss;
 let isVolumeOn;

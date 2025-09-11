@@ -1,4 +1,4 @@
-class World extends WorldTwo{
+class World extends WorldTwo {
     character = new Character();
     level = level1;
     canvas;
@@ -21,8 +21,6 @@ class World extends WorldTwo{
     squeak_sound = new Audio('audio/squeak.mp3');
     finalBoss_sound = new Audio('audio/finalBoss_sound.mp3');
     sound = true;
-    
-    // worldTwo = new WorldTwo();
 
     constructor(canvas, keybord) {
         super();
@@ -53,13 +51,11 @@ class World extends WorldTwo{
                     self.nextLevel();
                 }, 1000);
             }
-        }, 200);
+        }, 50);
         setInterval(() => {
             this.jumpofChicken();
         }, 1000 / 25);
     }
-
-    
 
     /**
      * Checks if the player can throw a bottle based on game conditions.
@@ -70,10 +66,10 @@ class World extends WorldTwo{
     }
 
     /**
-    * Checks if a bottle collides with the end boss.
-    * @param {ThrowableObject} bottle - The bottle to check collision with.
-    * @returns {boolean} True if collision between the bottle and end boss is detected, otherwise false.
-    */
+     * Checks if a bottle collides with the end boss.
+     * @param {ThrowableObject} bottle - The bottle to check collision with.
+     * @returns {boolean} True if collision between the bottle and end boss is detected, otherwise false.
+     */
     checkForCollidingBottleOfBoss(bottle) {
         return this.level.enemies.some(endboss => endboss instanceof Endboss && bottle.isColliding(endboss));
     }
@@ -85,13 +81,12 @@ class World extends WorldTwo{
     bossLifeToUpdate() {
         this.bossLife -= 20;
         this.bossBar.setPercentage(this.bossLife);
-
         return this.bossLife;
     }
 
     /**
-    * Handles character receiving a hit.
-    */
+     * Handles character receiving a hit.
+     */
     characterReceivesHit() {
         this.character.hit();
         this.updatesCharacterLife();
@@ -109,10 +104,10 @@ class World extends WorldTwo{
     }
 
     /**
-    * Checks each chicken in the group for jumping interaction with the character.
-    * @param {Array} chickenGroup - The group of chickens to check.
-    * @param {boolean} characterHasJumped - A flag indicating if the character has already jumped on a chicken.
-    */
+     * Checks each chicken in the group for jumping interaction with the character.
+     * @param {Array} chickenGroup - The group of chickens to check.
+     * @param {boolean} characterHasJumped - A flag indicating if the character has already jumped on a chicken.
+     */
     checkChickenGroupForJump(chickenGroup, characterHasJumped) {
         chickenGroup.forEach((chicken) => {
             if (!characterHasJumped && this.checkCharachrterForCollidingChicken(chicken)) {
@@ -127,10 +122,10 @@ class World extends WorldTwo{
     }
 
     /**
-    * Handles the character jumping on a chicken.
-    * @param {Object} chicken - The chicken object on which the character jumps.
-    * @param {Array} chickenGroup - The group of chickens from which the chicken is removed after jumping.
-    */
+     * Handles the character jumping on a chicken.
+     * @param {Object} chicken - The chicken object on which the character jumps.
+     * @param {Array} chickenGroup - The group of chickens from which the chicken is removed after jumping.
+     */
     jumpOnChicken(chicken, chickenGroup) {
         this.jumpOnTheChicken(chicken);
         if (this.sound === true) {
@@ -143,20 +138,20 @@ class World extends WorldTwo{
     }
 
     /**
-    * Checks for collisions between game elements.
-    */
+     * Checks for collisions between game elements.
+     */
     checkCollisions() {
         if (this.isTheEndbossCollidingCharacter(this.character)) {
             this.characterReceivesHit();
             this.character.energy -= 20;
-            this.characterCheckForEnergy();         
+            this.characterCheckForEnergy();
         };
         this.thrownBottles();
         this.coinStatus();
         this.bottleValueStatus();
     }
 
-/**
+    /**
      * Checks for collisions between the character and coins. 
      * If a collision is detected, the coin is collected.
      */
@@ -169,7 +164,20 @@ class World extends WorldTwo{
         });
     }
 
-    characterCheckForEnergy(){
+    /**
+     * Checks for collisions between the character and bottles.
+     * If a collision is detected, the bottle is collected.
+     */
+    bottleValueStatus() {
+        this.level.bottle.forEach((bottle) => {
+            if (this.checkCharachrterForCollidingBottle(bottle)) {
+                this.characterIsCollidingBottle(bottle);
+                this.bottleBar.setPercentage(this.bottleValue);
+            }
+        });
+    }
+
+    characterCheckForEnergy() {
         if (this.character.energy <= 0) {
             this.isCharacterDead();
             if (this.sound === true) {
@@ -182,8 +190,8 @@ class World extends WorldTwo{
     }
 
     /**
-    * Handles the thrown bottles in the game.
-    */
+     * Handles the thrown bottles in the game.
+     */
     thrownBottles() {
         this.throwableObject.forEach((bottle) => {
             const hitEndboss = this.handleHitEndboss(bottle);
@@ -219,10 +227,10 @@ class World extends WorldTwo{
     }
 
     /**
-    * Handles the collision of a thrown bottle with a chicken.
-    * @param {ThrowableObject} bottle - The thrown bottle object.
-    * @returns {Object | boolean} The hit chicken object if collision occurs, otherwise false.
-    */
+     * Handles the collision of a thrown bottle with a chicken.
+     * @param {ThrowableObject} bottle - The thrown bottle object.
+     * @returns {Object | boolean} The hit chicken object if collision occurs, otherwise false.
+     */
     handleHitChicken(bottle) {
         const hitChicken = this.level.smallChicken.find(chicken => bottle.isColliding(chicken));
         if (hitChicken) {
@@ -262,8 +270,8 @@ class World extends WorldTwo{
     }
 
     /**
-    * Updates the character's life displayed on the status bar.
-    */
+     * Updates the character's life displayed on the status bar.
+     */
     updatesCharacterLife() {
         this.stadusBar.setPercentage(this.character.energy);
     }
@@ -289,26 +297,30 @@ class World extends WorldTwo{
         return this.character.isColliding(coin)
     }
 
-// NEUE, KORRIGIERTE FUNKTION
-characterIsCollidingCoin(coin) {
-    // Erhöhe den Münzwert nur, wenn die Leiste nicht schon voll ist
-    if (this.coinValue < 100) {
-        this.coinValue += 20;
-        
-        if (this.sound === true) {
-            this.coin_sound.play();
-        }
+    /**
+     * Handles the logic when a character collides with a coin.
+     * @param {Object} coin - The coin object the character collided with.
+     */
+    characterIsCollidingCoin(coin) {
+        // Erhöhe den Münzwert nur, wenn die Leiste nicht schon voll ist
+        if (this.coinValue < 100) {
+            this.coinValue += 20;
 
-        // Finde die Position (Index) der eingesammelten Münze im Array
-        const coinIndex = this.level.coin.indexOf(coin);
-        
-        // Wenn die Münze gefunden wurde...
-        if (coinIndex > -1) {
-            // ...entferne sie aus dem Array, damit sie nicht erneut gesammelt werden kann
-            this.level.coin.splice(coinIndex, 1); 
+            if (this.sound === true) {
+                this.coin_sound.play();
+            }
+
+            // Finde die Position (Index) der eingesammelten Münze im Array
+            const coinIndex = this.level.coin.indexOf(coin);
+
+            // Wenn die Münze gefunden wurde...
+            if (coinIndex > -1) {
+                // ...entferne sie aus dem Array, damit sie nicht erneut gesammelt werden kann
+                this.level.coin.splice(coinIndex, 1);
+            }
         }
     }
-}
+
     /**
      * Plays the jump sound, makes the character jump, and sets the chicken's energy to 0.
      */
@@ -321,8 +333,8 @@ characterIsCollidingCoin(coin) {
     }
 
     /**
-    * Checks if the character is colliding with a chicken.
-    */
+     * Checks if the character is colliding with a chicken.
+     */
     checkCharachrterForCollidingChicken(enemy) {
         return this.character.isColliding(enemy);
     }
@@ -335,15 +347,20 @@ characterIsCollidingCoin(coin) {
     }
 
     /**
-     * Plays the bottle sound and updates the bottle value.
+     * Handles the logic when a character collides with a bottle.
+     * @param {Object} bottle - The bottle object the character collided with.
      */
-    characterIsCollidingBottle() {
-        if (this.sound === true) {
-            this.bottle_sound.play();
+    characterIsCollidingBottle(bottle) {
+        if (this.bottleValue < 100) {
             this.bottleValue += 20;
-        } else {
-            this.bottle_sound.pause();
-            this.bottleValue += 20;
+            if (this.sound === true) {
+                this.bottle_sound.play();
+            }
+
+            const bottleIndex = this.level.bottle.indexOf(bottle);
+            if (bottleIndex > -1) {
+                this.level.bottle.splice(bottleIndex, 1);
+            }
         }
     }
 

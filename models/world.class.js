@@ -49,7 +49,7 @@ class World extends WorldTwo {
             if (self.bossLife <= 0) {
                 setTimeout(() => {
                     self.nextLevel();
-                }, 1000);
+                }, 2000);
             }
         }, 50);
         setInterval(() => {

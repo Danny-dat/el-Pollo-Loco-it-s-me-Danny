@@ -32,12 +32,9 @@ function start() {
  * Hides the game over message, resets the game world and level, and starts the game again.
  */
 function reStart() {
-    let restartPolloLoco = document.getElementById('gameOver');
-    restartPolloLoco.style.display = 'none';
-    WorldTwo= null;
-    clearAllIntervals();
-    start();
+    window.location.reload();
 }
+
 function lautSound(){
     let volume = document.getElementById('volume');
     volume.src = 'img/lautsprecher.png';

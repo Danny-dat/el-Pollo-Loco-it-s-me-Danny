@@ -36,6 +36,14 @@
 
 <body onload="init()">
     <h1>EL POLLO LOCO</h1>
+        <div class="top-controls">
+        <a href="impressum.html" target="_blank" class="impressum-link">Impressum</a>
+        <div class="info">
+            <img onclick="infoNote()" src="img/mouse-and-keyboard-8938335_640.png" title="Steuerung anzeigen">
+            <img id="soundOn" onclick="toggleSound()" src="img/lautsprecher.png" title="Ton an">
+            <img id="soundOff" onclick="toggleSound()" class="d-none" src="img/stumm.png" title="Ton aus">
+        </div>
+    </div>
     <div class="container" id="game-container">
         <canvas id="canvas" width="720px" height="480px"></canvas>
         <div class="infoNote" id="infoNote">

@@ -3,13 +3,14 @@ body {
     flex-direction: column;
     align-items: center;
     font-family: 'Permanent Marker', cursive;
-    background-image: url('img/wueste.jpg');
+    background-image: url('/img/wueste.jpg');
     background-position: center;
     background-size: cover;
     height: 100vh;
     width: 100%;
     overflow-x: hidden;
     margin: 0;
+    justify-content: center;
 }
 
 canvas {
@@ -20,6 +21,7 @@ canvas {
 
 h1 {
     font-size: 50px;
+    color: aqua;
     font-family: "Playwrite MX", cursive; 
     
 }
@@ -240,6 +242,57 @@ text {
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Standard-Syntax */
 }
+/* --- NEUE STEUERUNGSELEMENTE OBEN --- */
+.top-controls {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    display: flex;
+    align-items: center;
+    z-index: 100; /* Stellt sicher, dass es über allem liegt */
+}
+
+.impressum-link {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 18px;
+    text-shadow: 1px 1px 3px black;
+}
+
+.info img {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* --- STEUERUNGS-BOX AUF DEM STARTBILDSCHIRM --- */
+.controls-info-box {
+    position: absolute;
+    bottom: 30px; /* Positioniere es unten auf dem Startbildschirm */
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    text-align: center;
+    text-shadow: 1px 1px 2px black;
+}
+
+.controls-info-box h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.controls-info-box span {
+    margin: 0 10px;
+}
+
+/* Hilfsklasse zum Ein-/Ausblenden */
+.d-none {
+    display: none !important;
+}
+
 @media(max-width: 950px) {
     h1 {
         display: none;

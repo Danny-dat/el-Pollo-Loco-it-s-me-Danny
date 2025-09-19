@@ -371,35 +371,37 @@ class World extends WorldTwo {
         this.throwableObject.splice(index, 1);
     }
 
-    draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.backgroundObjects);
+draw() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.translate(this.camera_x, 0);
+    this.addObjectsToMap(this.level.backgroundObjects);
+    
+    // Wolken und Flaschen werden jetzt hier gezeichnet, also hinter der Spielfigur
+    this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.level.bottle);
 
-        this.ctx.translate(-this.camera_x, 0);
-        this.addToMap(this.stadusBar);
-        this.addToMap(this.coinBar);
-        this.addToMap(this.bottleBar);
-        this.addToMap(this.bossBar);
-        this.ctx.translate(this.camera_x, 0);
+    this.ctx.translate(-this.camera_x, 0);
+    this.addToMap(this.stadusBar);
+    this.addToMap(this.coinBar);
+    this.addToMap(this.bottleBar);
+    this.addToMap(this.bossBar);
+    this.ctx.translate(this.camera_x, 0);
 
-        this.addToMap(this.character);
+    this.addToMap(this.character);
 
-        this.addObjectsToMap(this.level.bottle);
-        this.addObjectsToMap(this.level.coin);
-        this.addObjectsToMap(this.level.clouds);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.endboss);
-        this.addObjectsToMap(this.level.smallChicken);
-        this.addObjectsToMap(this.throwableObject);
-        this.ctx.translate(-this.camera_x, 0);
+    // Die Aufrufe für Wolken und Flaschen wurden von hier entfernt
+    this.addObjectsToMap(this.level.coin);
+    this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.level.endboss);
+    this.addObjectsToMap(this.level.smallChicken);
+    this.addObjectsToMap(this.throwableObject);
+    this.ctx.translate(-this.camera_x, 0);
 
-        let self = this;
-        requestAnimationFrame(function () {
-            self.draw();
-        });
-    }
-
+    let self = this;
+    requestAnimationFrame(function () {
+        self.draw();
+    });
+}
     addObjectsToMap(objects) {
         objects.forEach(o => {
             this.addToMap(o);

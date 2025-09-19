@@ -20,7 +20,7 @@ canvas {
 
 h1 {
     font-size: 50px;
-    font-family: "Playwrite MX"; cursive;
+    font-family: "Playwrite MX", cursive; 
     
 }
 

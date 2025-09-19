@@ -213,7 +213,6 @@ text {
     border-radius: 20px;
     height: auto;
     z-index: 2;
-    /* Stelle sicher, dass die Infonotiz über dem Canvas liegt */
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -245,17 +244,30 @@ text {
 /* --- NEUE STEUERUNGSELEMENTE OBEN --- */
 .top-controls {
     position: absolute;
-    top: 10px;
-    right: 15px;
-    display: flex;
-    align-items: center;
-    z-index: 100; /* Stellt sicher, dass es über allem liegt */
+    top: 5mm;
+    right: 5mm;
+    z-index: 100;
+}
+.top-controls .info {
+    display: flex;       /* Ordnet die Icons in einer Reihe an */
+    align-items: center; /* Zentriert die Icons vertikal */
+    gap: 15px;           /* Fügt einen Abstand zwischen den Icons hinzu */
 }
 
+.top-controls .info img {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+
+
 .impressum-link {
+    position: absolute;
+    bottom: 10mm; /* Wert von 5mm auf 15mm erhöht */
+    left: 50%;
+    transform: translateX(-50%);
     color: white;
     text-decoration: none;
-    margin-right: 20px;
     font-size: 18px;
     text-shadow: 1px 1px 3px black;
 }
